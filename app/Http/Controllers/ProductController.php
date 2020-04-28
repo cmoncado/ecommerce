@@ -15,6 +15,9 @@ class ProductController extends Controller
     public function index()
     {
         //Muestra la colección del recurso
+        $products = Products::all();
+
+        return view('products.index',['products' => $products]);
     }
 
     /**
@@ -47,7 +50,7 @@ class ProductController extends Controller
       ];
 
       if(Products::create($options)) {
-           return redirect('/');
+           return redirect('/productos');
 
 
         } else {
