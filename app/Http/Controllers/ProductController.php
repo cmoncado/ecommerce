@@ -7,6 +7,12 @@ use App\Products;
 
 class ProductController extends Controller
 {
+      public function __construct(){
+        $this->middleware('auth',['except' => ['index','show']]);
+
+      }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +21,7 @@ class ProductController extends Controller
     public function index()
     {
         //Muestra la colección del recurso
-        $products = Products::all();
+        $products = Products::paginate(15);
 
         return view('products.index',['products' => $products]);
     }
@@ -68,6 +74,9 @@ class ProductController extends Controller
     public function show($id)
     {
         // Muestra unicamente un recurso
+        $product = Products::find($id);
+
+        return view('products.show',['product' => $product]);
     }
 
     /**
@@ -117,5 +126,8 @@ class ProductController extends Controller
     public function destroy($id)
     {
         // Remueve el recurso del storage
+        $products = Products::destroy($id);
+
+        return redirect('/productos');
     }
 }
